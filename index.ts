@@ -1,4 +1,5 @@
 import type { OAuth2Adapter } from "adminforth";
+import type { GithubEmail } from "./types";
 
 export class AdminForthAdapterGithubOauth2 implements OAuth2Adapter {
     private clientID: string;
@@ -75,8 +76,8 @@ export class AdminForthAdapterGithubOauth2 implements OAuth2Adapter {
           },
         });
         
-        const emails = await emailResponse.json();
-        const primaryEmail = emails.find(email => email.primary);
+        const emails: GithubEmail[] = await emailResponse.json();
+        const primaryEmail = emails.find((email: GithubEmail) => email.primary);
         userData.email = primaryEmail?.email;
       }
   

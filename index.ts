@@ -1,7 +1,7 @@
 import type { OAuth2Adapter } from "adminforth";
 import type { GithubEmail } from "./types.js";
 
-export class AdminForthAdapterGithubOauth2 implements OAuth2Adapter {
+export default class AdminForthAdapterGithubOauth2 implements OAuth2Adapter {
     private clientID: string;
     private clientSecret: string;
     private redirectUri: string;

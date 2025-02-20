@@ -4,22 +4,18 @@ import type { GithubEmail } from "./types.js";
 export default class AdminForthAdapterGithubOauth2 implements OAuth2Adapter {
     private clientID: string;
     private clientSecret: string;
-    private redirectUri: string;
   
     constructor(options: {
       clientID: string;
       clientSecret: string;
-      redirectUri: string;
     }) {
       this.clientID = options.clientID;
       this.clientSecret = options.clientSecret;
-      this.redirectUri = options.redirectUri;
     }
   
     getAuthUrl(): string {
       const params = new URLSearchParams({
         client_id: this.clientID,
-        redirect_uri: this.redirectUri,
         scope: 'user:email read:user',
         allow_signup: 'true',
         provider: this.constructor.name
@@ -28,7 +24,7 @@ export default class AdminForthAdapterGithubOauth2 implements OAuth2Adapter {
       return url;
     }
   
-    async getTokenFromCode(code: string): Promise<{ email: string; name?: string; picture?: string }> {
+    async getTokenFromCode(code: string, redirect_uri: string): Promise<{ email: string;}> {
       console.log('Getting token from code:', code);
       
       // Exchange code for token
@@ -42,7 +38,7 @@ export default class AdminForthAdapterGithubOauth2 implements OAuth2Adapter {
           code,
           client_id: this.clientID,
           client_secret: this.clientSecret,
-          redirect_uri: this.redirectUri,
+          redirect_uri,
         }),
       });
   
